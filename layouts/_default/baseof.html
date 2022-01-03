@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="{{ $.Site.LanguageCode | default "en" }}">
+     
+    {{/* all the head, meta, and seo tags are in the below partial */}}
+    {{- partial "head.html" . -}}
+
+    <body class="seyx">
+        <!--Navigation related items that appears of every page go here-->
+        {{- partial "header.html" . -}}
+
+        <div id="content">
+            {{- block "main" . }}{{- end }}
+        </div>
+
+        <!--Site footer that appears on every go here-->
+        {{- partial "footer.html" . -}}
+    </body>
+</html>
