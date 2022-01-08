@@ -1,0 +1,20 @@
+{{ define "main" }}
+
+<section class="section section-single space--lg border-bottom home bg-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="typo-xl mb-4">{{ $.Title | default ""}}</h1>
+                <p class="mb-0 text-muted">{{ $.Description | default "" }}</p>
+
+                <div class="space--sm text-center"></div>
+
+                <article class="content">
+                    {{ .Content }}
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{ end }}

@@ -1,40 +1,73 @@
 {{ define "main" }}
 
-{{/*
-<section class="section">
+<section class="section space--lg border-bottom home bg-white">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8 text-center">
-                <div>
-                    <!--<img width="800" src="https://news.cgtn.com/news/2020-11-02/Analysis-China-is-betting-on-science-and-tech-like-never-before-V68V871ula/img/871ca9ce8b9941088260b6ed4ced4eeb/871ca9ce8b9941088260b6ed4ced4eeb.jpeg" alt="">-->
-                    <h1 class="T-xxl">{{ $.Site.Params.title }}</h1>
-                </div>
-                <a href="">Hi this is the title of the blog</a>
+        <h1 class="typo-xl">{{ $.Site.Params.title | default "Seydoux"}}</h1>
+        <p class="">{{ $.Site.Params.subtitle | default (printf "%s should really add a subtitle here. Like all other things this is also a WIP block of this site :|" $.Site.Author.name) }}</p>
+    </div>
+</section>
+
+
+<section class="section space--lg border-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h1 class="typo-lg">Recent Things</h1>
+            </div>
+
+            <div class="col-md-8">
+                {{ $mainSections := .Site.Params.mainSections | default (slice "posts") }}
+                {{ $paginator := .Paginate (where .Site.RegularPages "Section" "in" $mainSections) }}
+
+                {{ range $paginator.Pages }} 
+                    <div class="mb-5">
+                        <time datetime="{{ .PublishDate }}" class="catalogue-time">{{ i18n "publishdate" . }}</time>
+                        <h3 class="typo-lg">
+                            <a class="text-dark" href="{{ .Permalink }}">{{ .Title }}</a>
+                        </h3>
+                        <div class="catalogue-line"></div>
+
+                        <p>
+                            {{ if isset .Params "summary" }}{{ .Params.Summary | markdownify }}{{ else }}{{ .Summary }}{{ end }}
+                        </p>
+                    </div>
+                {{ end }}
+
+                <nav class="navbar navbar-expand-lg navbar-light bg-white">
+                    <div class="container">
+                        <ul class="navbar-nav mx-auto">
+                            {{ if $paginator.HasPrev }}
+                            <li class="nav-item">
+                                <a href="{{ $paginator.Prev.URL }}" class="nav-link">
+                                «
+                                </a>
+                            </li>
+                            {{ end }}
+                            
+                            {{ range $paginator.Pagers }}
+                                <li class="nav-item">
+                                <a href="{{ .URL }}" class="nav-link">
+                                    {{ .PageNumber }}
+                                </a>
+                                </li>
+                            {{ end }}
+
+                            {{ if $paginator.HasNext }}
+                            <li class="nav-item">
+                                <a href="{{ $paginator.Next.URL }}" class="nav-link">
+                                »
+                                </a>
+                            </li>
+                            {{ end }}
+                        </ul>
+                        </div>
+                    </div>
+                </nav>
+
             </div>
         </div>
     </div>
 </section>
-
-<h1>{{ $.Site.Params.title }}</h1>
-
-<div>
-    {{ $mainSections := .Site.Params.mainSections | default (slice "posts") }}
-
-    {{ range (.Paginate (where .Site.RegularPages "Section" "in" $mainSections)).Pages }} 
-        <a href="{{ .Permalink }}" class="catalogue-item">
-            <div>
-                <time datetime="{{ .PublishDate }}" class="catalogue-time">{{ i18n "publishdate" . }}</time>
-                <h2 class="catalogue-title">{{ .Title }}</h2>
-                <div class="catalogue-line"></div>
-
-                <p>
-                    {{ if isset .Params "summary" }}{{ .Params.Summary | markdownify }}{{ else }}{{ .Summary }}{{ end }}
-                </p>
-            </div>
-        </a>
-    {{ end }}
-</div>
-*/}}
 
 {{ end }}
 

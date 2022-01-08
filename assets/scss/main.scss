@@ -1,50 +1,104 @@
+@import 'base';
 @import "../../node_modules/bootstrap/scss/bootstrap";
+@import 'components/components';
+
+
+@mixin make-responsive-container($padding-x: $container-padding-x, $max-width: $max-width) {
+  width: 100%;
+  padding-right: $padding-x;
+  padding-left: $padding-x;
+  max-width: $max-width;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 
 .seyx {
-    nav.navbar {
-        letter-spacing: 1px;
-        font-size: 0.85rem;
-
-        & .primary {
-        }
-
-        ul > li.nav-item {
-            margin-right: 0.3rem;
-
-
-            a {
-                text-decoration: none;
-            }
-
-            svg {
-                width: 20px;
-                fill: $purple;
-            }
-        }
-
-        .navbar-brand {
-            text-decoration: none;
-            font-size: 1rem;
-            color: $green;
-
-            background-image: linear-gradient(92deg, #f35626, #feab3a);
-	        background-clip: text;
-            animation: hue 10s infinite linear;
-        }
+    .container {
+        @include make-responsive-container(1rem, 1200px);
     }
 
-
-
-    .section {
-        padding: 2rem 0;
+    a {
+        text-decoration: none;
     }
 }
 
-.T {
-    &-xxl {
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+}
+
+p {
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    color: $gray-900;
+}
+
+
+.typo {
+    &-xl {
         font-size: 4rem;
+        font-weight: 600;
+        margin-bottom: 1.2rem;
+        margin-left: -5px;
+        font-family: 'Josefin Sans', sans-serif;
     }
 
+    &-lg {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 1.2rem;
+        font-family: 'Josefin Sans', sans-serif;
+        color: $gray-800;
+    }
+
+    &-sm {
+        font-size: 1.5rem;
+        font-weight: 300;
+    }
+
+    &-gradient {
+        color: $green;
+
+        background-image: linear-gradient(92deg, #f35626, #feab3a);
+        background-clip: text;
+        animation: hue 10s infinite linear;
+    }
+}
+
+pre {
+    padding: 1rem 1.3rem;
+    margin: 2.5rem 0;
+    color: $gray-300;
+    border-radius: 7px;
+    line-height: 1.4rem;
+    background: $gray-800 !important;
+}
+
+.section {
+    &-single {
+        article.content {
+            h1, h2, h3 {
+                margin-top: 3rem;
+                margin-bottom: 1rem;
+            }
+
+            p, li {
+                font-size: 1rem;
+                color: $gray-700;
+                letter-spacing: 1.2px;
+                line-height: 150%;
+                text-align: justify;
+            }
+
+            * > img {
+                margin: 1rem 0;
+                max-width: 100%;
+                border: 1px solid $gray-300;
+            }
+        }
+    }
 }
 
 

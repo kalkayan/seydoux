@@ -1,0 +1,18 @@
+<section class="section footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 space--md border-end">
+                <h4>{{ $.Site.Title }}</h4>
+                <div class="social">
+                    {{range $index, $element := $.Site.Params.social}}
+                        <a class="text-muted" href="{{ $element.url }}" target="__blank">
+                            <span class="{{ if eq $index 0 }} me-2 {{ else }} mx-2 {{ end }}">{{ $element.name  }}</span> 
+                            {{ if gt (len $.Site.Params.social) (add $index 1) }} · {{ end }}
+                        </a>
+                    {{end}}
+                </div>
+            </div>
+            <div class="col-md-7"></div>
+        </div>
+    </div>
+</section>

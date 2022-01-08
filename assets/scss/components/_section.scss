@@ -1,0 +1,21 @@
+$section-size: ('sm': 2rem, 'md': 4rem, 'lg': 6rem);
+
+@each $sz, $padding in $section-size {
+    .space--#{$sz} {
+        padding: $padding 0;
+    }    
+}
+
+.section {
+    &.footer {
+
+        .social {
+            font-size: .8rem;
+        }
+
+        svg {
+            width: 1.2rem;
+        }
+    }
+}
+
