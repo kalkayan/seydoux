@@ -1,20 +1,103 @@
 {{ define "main" }}
 
-<section class="section section-single space--lg border-bottom home bg-white">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8">
-                <h1 class="typo-xl mb-4">{{ $.Title | default ""}}</h1>
-                <p class="mb-0 text-muted">{{ $.Description | default "" }}</p>
+<section class="section section-single border-bottom home bg-white">
+    <!--<div class="container">-->
 
-                <div class="space--sm text-center"></div>
+        <div class="border-bottom">
+            <div class="container">
+                <div class="row border-start text-muted border-end justify-content-center">
+                    <div class="col-md-6 border-start space--sm px-5">
+                        <span>
+                            {{ $url := "" }}
+                            {{ range $index, $crum := (split .URL "/") }}
+                                {{ if gt (len . ) 0 }}
+                                    {{ if gt $index 1 }}<small>/</small> {{ end }}
+                                    {{ $url = (printf "%s/%s" $url $crum) }}
+                                    <a href="{{ $url }}" class="text-muted">
+                                        <small>{{ humanize $crum }}</small> 
+                                    </a>
+                                {{ end }}
+                            {{ end }}
+                        </span>
 
-                <article class="content">
-                    {{ .Content }}
-                </article>
+                    </div>
+                    <div class="col-md-3 space--sm text-center border-start border-end px-5">
+                        <small><span>Writted by {{ $.Params.Author }}</span></small>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+
+        <div class="border-bottom">
+            <div class="container">
+                <div class="row border-start border-end justify-content-center">
+                    <div class="col-md-10 space--lg px-5">
+                        <h1 class="typo-xl mb-4">{{ $.Title | default ""}}</h1>
+                        <p class="mb-0 text-muted">{{ $.Description | default "" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-bottom">
+            <div class="container">
+                <div class="row border-start border-end justify-content-center">
+                    <div class="col-md-10 space--lg px-5">
+                        <article class="content">
+                            {{ .Content }}
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{ $nextPage := $.Params.Next | default $.Next }}
+
+        {{ if and ($nextPage) (eq $nextPage.Section "posts") }}
+            <div class="border-bottom">
+                <div class="container">
+                    <div class="row border-start border-end justify-content-center">
+                        <div class="col-md-3 d-flex align-items-center border-end">
+                            <h1 class="typo-lg my-auto w-100 text-center "># Read Next</h1>
+                        </div>
+                        <div class="col-md-9 space--lg px-5">
+                            {{ with $nextPage}}
+                                <h3 class="typo-md">
+                                    <a href="{{ .Permalink }}">{{ .Title }}</a>
+                                </h3>
+                                <p class="text-muted">{{ .Description }}</p>
+                            {{ end }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{ end }}
+
+            <div class="">
+                <div class="container">
+                    <div class="row flex-row-reverse-sm border-start border-end">
+                        <div class="p-0 col-md-8 border-end">
+                            {{ range $index, $element := (.Site.RegularPages.Related .  | first 3) }}
+                                {{ with $element }}
+                                <div class="{{ if gt $index 0 }} border-top {{ end }} space--sm px-5">
+                                        <h3 class="typo-sm">
+                                            <a href="{{ .Permalink }}">{{ .Title }}</a>
+                                        </h3>
+                                        <p class="mb-0 text-muted"><small>{{ .Description }}</small></p>
+                                    </div>
+                                {{ end }}
+                            {{ end }}
+                        </div>
+                        <div class="col-md-4 space--sm px-5 d-flex align-items-center">
+                            <h3 class="typo-lg my-auto w-100 text-center">#Related</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    <!--</div>-->
 </section>
 
 {{ end }}
+
+

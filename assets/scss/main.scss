@@ -35,8 +35,20 @@ p {
     color: $gray-900;
 }
 
+.row {
+    margin: 0;
+}
+
 
 .typo {
+    &-xxl {
+        font-size: 6rem;
+        font-weight: 600;
+        margin-bottom: 1.2rem;
+        margin-left: -5px;
+        font-family: 'Josefin Sans', sans-serif;
+    }
+
     &-xl {
         font-size: 4rem;
         font-weight: 600;
@@ -53,8 +65,16 @@ p {
         color: $gray-800;
     }
 
-    &-sm {
+    &-md {
         font-size: 1.5rem;
+        font-weight: 500;
+        margin-bottom: 1.2rem;
+        font-family: 'Josefin Sans', sans-serif;
+        color: $gray-800;
+    }
+
+    &-sm {
+        font-size: 1rem;
         font-weight: 300;
     }
 
@@ -64,6 +84,10 @@ p {
         background-image: linear-gradient(92deg, #f35626, #feab3a);
         background-clip: text;
         animation: hue 10s infinite linear;
+    }
+
+    &-vertical {
+        transform: rotate(270deg);
     }
 }
 
