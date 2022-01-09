@@ -6,23 +6,24 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-md-4 me-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Posts</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Interviews</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
+        {{ range $index, $section := .Site.Sections }}
+            {{ if gt (len .RegularPages) 1 }}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ .Title }}
+                    </a>
+                    <ul class="dropdown-menu p-0 border" aria-labelledby="navbarDropdown">
+                        {{ range .RegularPages }}
+                        <li><a class="dropdown-item px-3 border-bottom nav-link" href="{{ .Permalink }}">{{ .Title }}</a></li>
+                        {{ end }}
+                    </ul>
+                </li>
+            {{ else }}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ .Permalink }}">{{ humanize .Title }}</a>
+                </li>
+            {{ end  }}
+        {{ end }}
       </ul>
 
       <ul class="navbar-nav ms-auto">

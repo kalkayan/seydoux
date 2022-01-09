@@ -1,6 +1,6 @@
 {{ define "main" }}
 
-<section class="section section-single border-bottom home bg-white">
+<section class="section section-single border-bottom bg-white">
     <!--<div class="container">-->
 
         <div class="border-bottom">
@@ -73,6 +73,7 @@
             </div>
         {{ end }}
 
+        {{ if in (slice "posts") .Section }}
             <div class="">
                 <div class="container">
                     <div class="row flex-row-reverse-sm border-start border-end">
@@ -94,6 +95,7 @@
                     </div>
                 </div>
             </div>
+        {{ end }}
 
     <!--</div>-->
 </section>
