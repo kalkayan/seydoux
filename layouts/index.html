@@ -1,6 +1,6 @@
 {{ define "main" }}
 
-<section class="section space--lg border-bottom home bg-white">
+<section class="section space--lg border-bottom home shadow-sm">
     <div class="container">
         <h1 class="typo-xl">{{ $.Site.Params.title | default "Seydoux"}}</h1>
         <p class="">{{ $.Site.Params.subtitle | default (printf "%s should really add a subtitle here. Like all other things this is also a WIP block of this site :|" $.Site.Author.name) }}</p>
@@ -16,12 +16,11 @@
             </div>
 
             <div class="col-md-8 p-0 border-start border-end">
-                {{ $mainSections := .Site.Params.mainSections | default (slice "posts") }}
-                {{ $paginator := .Paginate (where .Site.RegularPages "Section" "in" $mainSections) }}
+                {{ $mainSections := .Site.Params.mainSections | default (slice "posts" "series") }}
+                {{ $paginator := .Paginate (where .Site.RegularPages "Section" "in" $mainSections).Reverse }}
 
                 {{ range $paginator.Pages }} 
                     <div class="space--sm px-5 border-bottom">
-                        <time datetime="{{ .PublishDate }}" class="catalogue-time">{{ i18n "publishdate" . }}</time>
                         <h3 class="typo-lg">
                             <a class="text-dark" href="{{ .Permalink }}">{{ .Title }}</a>
                         </h3>
@@ -97,16 +96,17 @@
 {{ end }}
 
 
+<section class="section border-bottom">
+    <div class="container">
+        <div class="border-start border-end px-0 space--md ">
+            <p class="typo-lg mb-0 text-center">Explore</p>
+        </div>
+    </div>
+</section>
+
 {{ range (where .Site.Sections "Section" "in" $mainSections) }}
     <section class="section border-bottom home bg-white">
-        <div class="container">
-            <div class="row space--lg justify-content-center border-start border-end">
-                <div class="col-md-10">
-                    <h1 class="typo-xl">{{ .Title }}</h1>
-                    <p class="">{{ $.Site.Params.subtitle | default (printf "Explore some article about %s" .Title) }}</p>
-                </div>
-            </div>
-        </div>
+        {{ partial "components/banner" . }}
     </section>
 {{ end }}
 
@@ -145,11 +145,12 @@
 </section>
 {{ end }}
 
-<section class="section space--lg border-bottom">
+<section class="section space--md border-bottom">
     <div class="container">
-        <p class="typo-md mb-0 text-center">Ask a question or just simply say hello at rec.manish.sahani@gmail.com</p>
+        <p class="typo mb-0 text-center">
+            Ask a question or just simply say hello at <a href="mailto:rec.manish.sahani@gmail.com">rec.manish.sahani@gmail.com</a>
+        </p>
     </div>
-
 </section>
 
 {{ end }}

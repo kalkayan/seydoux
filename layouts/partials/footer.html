@@ -1,13 +1,16 @@
-<section class="section footer">
+<section class="section footer border-top border-bottom">
     <div class="container">
         <div class="row">
             <!--<div class="col-md-2"></div>
             <div class="col-md-4 border-start"></div>-->
-            <div class="col-md-5 p-0 text-center border-start border-end">
+            <div class="col-md-{{ len $.Site.Params.social }} p-0 border-start border-end">
                 <div class="space--sm px-5">
-                    <h6 class="typo-gradient mb-0">{{ $.Site.Title }}</h6>
+                    <h6 class="typo-gradient mb-2">{{ $.Site.Title }}</h6>
+                    <p class="mb-0 text-muted typo-xxs">
+                        Copyright (c) {{ dateFormat "2006" now }} Manish Sahani
+                    </p>
                 </div>
-                <div class="row social border-top border-bottom">
+                <div class="row social border-top border-bottom text-center">
                     {{range $index, $element := $.Site.Params.social}}
                     <div class="col space {{ if gt (len $.Site.Params.social) (add $index 1)}}border-end {{ end }}">
                             <a class="text-muted" href="{{ $element.url }}" target="__blank">
@@ -17,14 +20,29 @@
                     {{end}}
                 </div>
             </div>
-            <div class="col-md-7 pe-5 border-end">
+            <div class="col pe-5 border-end">
                 <table class="h-100 w-100 text-center"> 
                     <tbody>
                         <tr>
-                            <td class="text-muted align-middle"><small>Created & Designed Manish Sahani and build using @hugo</small></td>
+                            <td class="text-muted align-middle">
+                                <small>Created & Designed Manish Sahani and build using @hugo.</small>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="row border-end border-start"> 
+            <div class="col px-5 space text-muted text-center">
+                <small class="typo-xxs">
+                    This site ({{ $.Site.Title }}) is maintained by {{ $.Site.Author.name }} and was created with the following rules. First, being never to monitize the site's content 
+                    and with paid promotion/ads. Second, to not collect data of any kind what so ever. 
+                </small>
             </div>
         </div>
     </div>

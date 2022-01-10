@@ -1,0 +1,29 @@
+{{ define "main" }}
+
+{{ partial "components/banner" . }}
+
+<section class="section section-list">
+    <div class="">
+        <div class="container">
+            <div class="row flex-row-reverse-sm border-start border-end">
+                <!-- Listing for related pages -->
+                {{ partial "components/listings" (dict 
+                        "Iterator"      (.Sections) 
+                        "Col"           8 
+                        "Placeholder"   "There is nothing yet in this series"
+                        "Class"         (dict "Heading" "typo-sm") 
+                    ) 
+                }}
+                <div class="col-md-4 space--sm pt-5 px-5">
+                    <h3 class="typo-md w-100"># About this series</h3>
+                    <p class="text-muted">{{ .Params.about }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+{{ end }}

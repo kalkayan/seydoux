@@ -1,0 +1,12 @@
+<span>
+    {{ $url := "" }}
+    {{ range $index, $crum := (split .URL "/") }}
+        {{ if gt (len . ) 0 }}
+            {{ if gt $index 1 }}<small>/</small> {{ end }}
+            {{ $url = (printf "%s/%s" $url $crum) }}
+            <a href="{{ $url }}" class="text-muted">
+                <small>{{ humanize $crum }}</small> 
+            </a>
+        {{ end }}
+    {{ end }}
+</span>

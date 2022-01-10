@@ -1,6 +1,6 @@
 {{ define "main" }}
 
-<section class="section section-single border-bottom bg-white">
+<section class="section section-single bg-white">
     <!--<div class="container">-->
         {{ $category := $.Params.categories }}
 
@@ -112,18 +112,13 @@
             <div class="border-bottom">
                 <div class="container">
                     <div class="row flex-row-reverse-sm border-start border-end">
-                        <div class="p-0 col-md-8 border-end">
-                            {{ range $index, $element := (.Site.RegularPages.Related .  | first 3) }}
-                                {{ with $element }}
-                                <div class="{{ if gt $index 0 }} border-top {{ end }} space--sm px-5">
-                                        <h3 class="typo-sm">
-                                            <a href="{{ .Permalink }}">{{ .Title }}</a>
-                                        </h3>
-                                        <p class="mb-0 text-muted"><small>{{ .Description }}</small></p>
-                                    </div>
-                                {{ end }}
-                            {{ end }}
-                        </div>
+                        <!-- Listing for related pages -->
+                        {{ partial "components/listings" (dict 
+                                    "Iterator"  (.Site.RegularPages.Related .  | first 3) 
+                                    "Col"       8 
+                                    "Class"     (dict "Heading" "typo-sm") )
+                        }}
+
                         <div class="col-md-4 space--sm px-5 d-flex align-items-center">
                             <h3 class="typo-lg my-auto w-100 text-center">#Related</h3>
                         </div>
