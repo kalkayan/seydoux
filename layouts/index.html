@@ -27,8 +27,10 @@
                         </h3>
                         <div class="catalogue-line"></div>
 
-                        <p>
+                        <p class="text-muted">
+                        <small>
                             {{ if isset .Params "summary" }}{{ .Params.Summary | markdownify }}{{ else }}{{ .Summary }}{{ end }}
+                        </small>
                         </p>
                     </div>
                 {{ end }}
@@ -61,21 +63,6 @@
     </div>
 </section>
 
-
-{{ range (where .Site.Sections "Section" "in" $mainSections) }}
-    <section class="section border-bottom home bg-white">
-        <div class="container">
-            <div class="row space--lg justify-content-center border-start border-end">
-                <div class="col-md-10">
-                    <h1 class="typo-xl">{{ .Title }}</h1>
-                    <p class="">{{ $.Site.Params.subtitle | default (printf "Explore some article about %s" .Title) }}</p>
-                </div>
-            </div>
-        </div>
-    </section>
-{{ end }}
-
-
 {{ $categories := .Site.Taxonomies.categories }}
 {{ $range := (mul (div (len $categories) 2 ) 2)}}
 
@@ -83,10 +70,10 @@
 <section class="section border-bottom">
     <div class="container">
         <div class="row border-start border-end">
-            <div class="col-md-6 py-3 my-auto text-center">
-                <h1 class="typo-md mb-0"># Categories</h1>
+            <div class="col-md-4 my-auto text-center">
+                <h1 class="typo-md mb-0"># Popular Categories</h1>
             </div>
-            <div class="col-md-6 p-0 border-start">
+            <div class="col-md-8 p-0 border-start">
                 <div class="row p-0">
                     {{ range $name, $taxonomy := $categories }} 
                         {{ if $range }}
@@ -108,6 +95,21 @@
     </div>
 </section>
 {{ end }}
+
+
+{{ range (where .Site.Sections "Section" "in" $mainSections) }}
+    <section class="section border-bottom home bg-white">
+        <div class="container">
+            <div class="row space--lg justify-content-center border-start border-end">
+                <div class="col-md-10">
+                    <h1 class="typo-xl">{{ .Title }}</h1>
+                    <p class="">{{ $.Site.Params.subtitle | default (printf "Explore some article about %s" .Title) }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+{{ end }}
+
 
 <!--This is some pretty bad logic to be honest -->
 {{ $tags := .Site.Taxonomies.tags }}

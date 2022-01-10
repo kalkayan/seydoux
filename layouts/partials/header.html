@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-md-4 me-auto">
         {{ range $index, $section := .Site.Sections }}
-            {{ if gt (len .RegularPages) 1 }}
+            {{ if and (gt (len .RegularPages) 1) (ne $section.Section "posts") }}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {{ .Title }}
