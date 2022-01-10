@@ -2,11 +2,12 @@
 
 <section class="section section-single border-bottom bg-white">
     <!--<div class="container">-->
+        {{ $category := $.Params.categories }}
 
         <div class="border-bottom">
             <div class="container">
                 <div class="row border-start text-muted border-end justify-content-center">
-                    <div class="col-md-6 border-start space--sm px-5">
+                    <div class="col-md-6 space--sm px-5">
                         <span>
                             {{ $url := "" }}
                             {{ range $index, $crum := (split .URL "/") }}
@@ -23,6 +24,13 @@
                     </div>
                     <div class="col-md-3 space--sm text-center border-start border-end px-5">
                         <small><span>Writted by {{ $.Params.Author }}</span></small>
+                    </div>
+                    <div class="col-md-3 space--sm text-center">
+                        {{ with $.Site.GetPage (printf "/categories/%s" $category) }}
+                        <a href={{ .RelPermalink }} title="Category">
+                            <small><span> # {{ $category  }}</span></small>
+                        </a>
+                        {{ end }}
                     </div>
                 </div>
             </div>
@@ -50,6 +58,33 @@
                 </div>
             </div>
         </div>
+
+        {{ $tags := $.Params.tags }}
+
+        {{ if $tags }}
+        <div class="border-bottom">
+            <div class="container">
+                <div class="row border-start border-end">
+                        <div class="col-md-9 p-0 border-end">
+                            <div class="row p-0">
+                                {{range $index, $taxonomy := $tags }} 
+                                <div class="col-md-2 text-center py-3 {{ if le $index 6 }} border-end {{ end }}">
+                                        {{ with $.Site.GetPage (printf "/tags/%s" $taxonomy) }}
+                                                <a href={{ .RelPermalink }} class="text-muted my-auto" title="All pages with tag {{$taxonomy}}">
+                                                    <small>{{ humanize $taxonomy}}</small>
+                                                </a>
+                                        {{end}}
+                                    </div>
+                                {{end}}
+                            </div>
+                        </div>
+                    <div class="col-md-3 py-2 my-auto text-center">
+                        <h1 class="typo-md mb-0"># Tags</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ end }}
 
         {{ $nextPage := $.Params.Next | default $.Next }}
 

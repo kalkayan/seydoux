@@ -76,6 +76,10 @@
 {{ end }}
 
 
+{{ $categories := .Site.Taxonomies.categories }}
+{{ $range := (mul (div (len $categories) 2 ) 2)}}
+
+{{ if $range }}
 <section class="section border-bottom">
     <div class="container">
         <div class="row border-start border-end">
@@ -84,14 +88,14 @@
             </div>
             <div class="col-md-6 p-0 border-start">
                 <div class="row p-0">
-                    {{ $categories := .Site.Taxonomies.categories }}
-                    {{ $range := (mul (div (len $categories) 2 ) 2)}}
                     {{ range $name, $taxonomy := $categories }} 
                         {{ if $range }}
                             {{ $cnt := .Count }}
-                            <div class="col-md-6 text-center space--md {{ if gt $range 2 }} border-bottom {{ end }} {{ if (mod (add 1 $range) 2) }}border-end {{ end }}">
+                            <div class="col-md-6 text-center space {{ if gt $range 2 }} border-bottom {{ end }} {{ if (mod (add 1 $range) 2) }}border-end {{ end }}">
                                 {{ with $.Site.GetPage (printf "/categories/%s" $name) }}
-                                        <a href={{ .RelPermalink }} class="text-success" title="All pages with tag {{$name}}">{{humanize $name}}</a>
+                                        <a href={{ .RelPermalink }} class="text-muted" title="All pages with tag {{$name}}">
+                                            <small>{{$name}}</small>
+                                        </a>
                                         <!--<sup>{{$cnt}}</sup>-->
                                 {{end}}
                             </div>
@@ -103,20 +107,26 @@
         </div>
     </div>
 </section>
+{{ end }}
 
+<!--This is some pretty bad logic to be honest -->
+{{ $tags := .Site.Taxonomies.tags }}
+{{ $range := (mul (div (len $tags) 6) 6)}}
+
+{{ if $range }}
 <section class="section border-bottom">
     <div class="container">
         <div class="row border-start border-end">
                 <div class="col-md-9 p-0 border-end">
                     <div class="row p-0">
-                        {{ $tags := .Site.Taxonomies.tags }}
-                        {{ $range := (mul (div (len $tags) 6) 6)}}
                         {{range $name, $taxonomy := $tags }} 
                             {{ if $range }}
                                 {{ $cnt := .Count }}
-                                <div class="col-md-2 text-center space--sm {{ if gt $range 6 }} border-bottom {{ end }} {{ if (mod (add 5 $range) 6) }}border-end {{ end }}">
+                                <div class="col-md-2 text-center py-3 {{ if gt $range 6 }} border-bottom {{ end }} {{ if (mod (add 5 $range) 6) }}border-end {{ end }}">
                                     {{ with $.Site.GetPage (printf "/tags/%s" $name) }}
-                                            <a href={{ .RelPermalink }} class="text-danger" title="All pages with tag {{$name}}">{{humanize $name}}</a>
+                                            <a href={{ .RelPermalink }} class="text-muted" title="All pages with tag {{$name}}">
+                                                <small>{{ $name }}</small>
+                                            </a>
                                             <!--<sup>{{$cnt}}</sup>-->
                                     {{end}}
                                 </div>
@@ -131,6 +141,8 @@
         </div>
     </div>
 </section>
+{{ end }}
+
 <section class="section space--lg border-bottom">
     <div class="container">
         <p class="typo-md mb-0 text-center">Ask a question or just simply say hello at rec.manish.sahani@gmail.com</p>
