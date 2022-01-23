@@ -90,6 +90,15 @@ $desktop-width: 1024px;
             }
         }
     }
+
+    &-bottom {
+        &-sm {
+            // TODO : border-start is only visible at sm
+            @include phone {
+                border-bottom: 1px solid $gray-300;
+            }
+        }
+    }
 }
 
 pre {
@@ -106,11 +115,13 @@ pre {
         article.content {
             h1, h2, h3 {
                 margin-top: 3rem;
-                margin-bottom: 1rem;
+                margin-bottom: 2rem;
+				font-weight: 700;
             }
 
-			h4, h5 {
+			h4, h5, h6 {
 				margin-bottom: 1.2rem;
+				font-weight: 600;
 			}
 
             p, li {

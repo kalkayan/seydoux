@@ -93,9 +93,9 @@
         </div>
         {{ end }}
 
-        {{ $nextPage := $.Params.Next | default $.Next }}
+        {{ $nextPage := (.GetPage ($.Params.next | default "nf")) | default $.Prev }}
 
-        {{ if and ($nextPage) (eq $nextPage.Section "posts") }}
+        {{ if and ($nextPage) (eq $nextPage.Section .Section) }}
             <div class="border-bottom">
                 <div class="container">
                     <div class="row border-start border-end justify-content-center">

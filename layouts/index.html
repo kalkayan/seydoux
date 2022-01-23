@@ -50,6 +50,10 @@
                                 {{ end }}
                             </small>
                             </p>
+
+							<p> 
+								<a href="{{ .Permalink }}">Read More</a>		
+							</p>
                         </div>
                     {{ end }}
 
@@ -67,7 +71,7 @@
     <!-- </Home/Listing> -->
 
     {{ $categories := .Site.Taxonomies.categories }}
-    {{ $range := (mul (div (len $categories) 2 ) 2)}}
+    {{ $range := (sub (add (len $categories) 4) (mod (len $categories) 4) )}}
 
     {{ if $range }}
     <section class="section border-bottom">
@@ -81,7 +85,7 @@
                         {{ range $name, $taxonomy := $categories }} 
                             {{ if $range }}
                                 {{ $cnt := .Count }}
-                                <div class="col-md-6 text-center space {{ if gt $range 2 }} border-bottom {{ end }} {{ if (mod (add 1 $range) 2) }}border-end {{ end }}">
+                                <div class="col-md-6 text-center space border-bottom-sm {{ if (mod (add 1 $range) 2) }}border-end {{ end }}">
                                     {{ with $.Site.GetPage (printf "/categories/%s" $name) }}
                                             <a href={{ .RelPermalink }} class="text-muted" title="All pages with tag {{$name}}">
                                                 <small>{{$name}}</small>
@@ -116,7 +120,7 @@
 
     <!--This is some pretty bad logic to be honest -->
     {{ $tags := .Site.Taxonomies.tags }}
-    {{ $range := (mul (div (len $tags) 6) 6)}}
+    {{ $range := (sub (add (len $tags) 6) (mod (len $tags) 6) )}}
 
     {{ if $range }}
     <section class="section border-bottom">

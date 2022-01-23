@@ -15,7 +15,7 @@
                             />
                         {{ end }}
                     {{ else }}
-                        <h1 class="typo-xl mb-4">{{ .Title | default ""}}</h1>
+                        <h1 class="typo-xl mb-4">{{ .Title | default "" | markdownify }}</h1>
                     {{ end }}
 
                     <!-- 
