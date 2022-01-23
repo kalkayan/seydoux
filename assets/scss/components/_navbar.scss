@@ -3,9 +3,6 @@ nav.navbar {
     font-size: 0.85rem;
 
     ul > li.nav-item {
-        margin-right: 0.3rem;
-
-
         svg {
             width: 20px;
             fill: $purple;
@@ -15,6 +12,7 @@ nav.navbar {
     .navbar-brand {
         text-decoration: none;
         font-size: 1rem;
+		margin-right: 1.75rem;
     }
 }
 

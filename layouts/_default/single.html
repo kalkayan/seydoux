@@ -10,7 +10,7 @@
                     <div class="col-md-6 space--sm px-5">
                         <span>
                             {{ $url := "" }}
-                            {{ range $index, $crum := (split .URL "/") }}
+                            {{ range $index, $crum := (split .RelPermalink "/") }}
                                 {{ if gt (len . ) 0 }}
                                     {{ if gt $index 1 }}<small>/</small> {{ end }}
                                     {{ $url = (printf "%s/%s" $url $crum) }}
@@ -36,16 +36,23 @@
             </div>
         </div>
 
-        <div class="border-bottom">
+        <!-- <div class="border-bottom">
             <div class="container">
                 <div class="row border-start border-end justify-content-center">
                     <div class="col-md-10 space--lg px-5">
-                        <h1 class="typo-xl mb-4">{{ $.Title | default ""}}</h1>
+                        {{ if $.Params.banner }} 
+                            {{ with .Resources.GetMatch $.Params.banner }}
+                                <img class="w-100" src="data:{{ .MediaType }};base64,{{ .Content | base64Encode }}">
+                            {{ end }}
+                        {{ else }}
+                            <h1 class="typo-xl mb-4">{{ .Title | default ""}}</h1>
+                        {{ end }}
                         <p class="mb-0 text-muted">{{ $.Description | default "" }}</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
+        {{ partial "components/banner" (dict "Context" . ) }}
 
         <div class="border-bottom">
             <div class="container">

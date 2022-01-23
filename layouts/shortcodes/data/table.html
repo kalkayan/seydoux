@@ -1,0 +1,29 @@
+{{ $data := index $.Site.Data (split (.Get "data") ".")  }}
+{{ $excluded := .Get "exclude" }}
+
+<table class="table">
+    <thead>
+        <tr>
+            {{ range $key, $val := index $data 0}} 
+                {{ if not (in $excluded $key) }}
+                <th scope="col">
+                    {{ $key }}
+                </th>
+                {{ end }}
+            {{ end }}
+        </tr>
+    </thead>
+    <tbody>
+        {{ range first (.Get "first" | default (len $data)) $data }} 
+        <tr class="">
+            {{ range $key, $val := .}} 
+                {{ if not (in $excluded $key) }}
+                    <td scope="col">
+                        {{ $val | markdownify }}
+                    </td>
+                {{ end }}
+            {{ end }}
+        </tr>
+    {{ end }}
+    </tbody>
+</table>

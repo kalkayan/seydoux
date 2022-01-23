@@ -1,133 +1,90 @@
 {{ define "main" }}
 
-<section class="section space--lg border-bottom home shadow-sm">
-    <div class="container">
-        <h1 class="typo-xl">{{ $.Site.Params.title | default "Seydoux"}}</h1>
-        <p class="">{{ $.Site.Params.subtitle | default (printf "%s should really add a subtitle here. Like all other things this is also a WIP block of this site :|" $.Site.Author.name) }}</p>
-    </div>
-</section>
+    <!-- Defaults -->
+    {{ $defaultSubTitle := printf "%s should really add a subtitle here. Like all other things this is also a WIP block of this site :| ~ Sincerely the site." $.Site.Author.name }}
+    {{ $defaultSections := slice "posts" "series" }}
+
+    <!-- Hugo Variables -->
+    {{ $title           := $.Site.Params.title          | default "Seydoux" }}
+    {{ $subtitle        := $.Site.Params.subtitle       | default $defaultSubTitle }}
+    {{ $mainSections    := .Site.Params.mainSections    | default $defaultSections }}
+    {{ $paginator       := .Paginate (first 15 (where .Site.RegularPages "Section" "in" $mainSections)).Reverse }}
 
 
-<section class="section border-bottom">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 border-start border-end--sm border-bottom-sm px-5 space--lg">
-                <h1 class="typo-lg text-center">Recent Things</h1>
-            </div>
-
-            <div class="col-md-8 p-0 border-start border-end">
-                {{ $mainSections := .Site.Params.mainSections | default (slice "posts" "series") }}
-                {{ $paginator := .Paginate (where .Site.RegularPages "Section" "in" $mainSections).Reverse }}
-
-                {{ range $paginator.Pages }} 
-                    <div class="space--sm px-5 border-bottom">
-                        <h3 class="typo-lg">
-                            <a class="text-dark" href="{{ .Permalink }}">{{ .Title }}</a>
-                        </h3>
-                        <div class="catalogue-line"></div>
-
-                        <p class="text-muted">
-                        <small>
-                            {{ if isset .Params "summary" }}{{ .Params.Summary | markdownify }}{{ else }}{{ .Summary }}{{ end }}
-                        </small>
-                        </p>
-                    </div>
-                {{ end }}
-
-                <div class="row m-0">
-                    {{ if $paginator.HasPrev }}
-                    <div class="col col-md-1 col-xs-1 col-sm-1 border-end p-2 text-center">
-                        <a href="{{ $paginator.Prev.URL }}" class="text-muted">
-                            «
-                        </a>
-                    </div>
-                    {{ end }}
-                    {{ range $paginator.Pagers }}
-                    <div class="col col-md-1 col-xs-1 col-sm-1 border-end p-2 text-center">
-                        <a href="{{ .URL }}" class="text-muted">
-                            {{ .PageNumber }}
-                        </a>
-                    </div>
-                    {{ end }}
-                    {{ if $paginator.HasNext }}
-                    <div class="col col-md-1 col-sm-1 col-sm-1 border-end-md p-2 text-center">
-                        <a href="{{ $paginator.Next.URL }}" class="text-muted">
-                            »
-                        </a>
-                    </div>
-                    {{ end }}
-                </div>
-            </div>
+    <!-- <Home/Intro> : The section that introduces the website to people -->
+    <section class="section home space--lg border-bottom shadow-sm">
+        <div class="container">
+            <h1 class="typo-xl">{{ $title }}</h1>
+            <p>{{ $subtitle }}</p>
         </div>
-    </div>
-</section>
-
-{{ $categories := .Site.Taxonomies.categories }}
-{{ $range := (mul (div (len $categories) 2 ) 2)}}
-
-{{ if $range }}
-<section class="section border-bottom">
-    <div class="container">
-        <div class="row border-start border-end">
-            <div class="col-md-4 my-auto text-center">
-                <h1 class="typo-md mb-0"># Popular Categories</h1>
-            </div>
-            <div class="col-md-8 p-0 border-start">
-                <div class="row p-0">
-                    {{ range $name, $taxonomy := $categories }} 
-                        {{ if $range }}
-                            {{ $cnt := .Count }}
-                            <div class="col-md-6 text-center space {{ if gt $range 2 }} border-bottom {{ end }} {{ if (mod (add 1 $range) 2) }}border-end {{ end }}">
-                                {{ with $.Site.GetPage (printf "/categories/%s" $name) }}
-                                        <a href={{ .RelPermalink }} class="text-muted" title="All pages with tag {{$name}}">
-                                            <small>{{$name}}</small>
-                                        </a>
-                                        <!--<sup>{{$cnt}}</sup>-->
-                                {{end}}
-                            </div>
-                            {{ $range = (sub $range 1) }}
-                        {{ end }}
-                    {{end}}
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-{{ end }}
-
-
-<section class="section border-bottom">
-    <div class="container">
-        <div class="border-start border-end px-0 space--md ">
-            <p class="typo-lg mb-0 text-center">Explore</p>
-        </div>
-    </div>
-</section>
-
-{{ range (where .Site.Sections "Section" "in" $mainSections) }}
-    <section class="section border-bottom home bg-white">
-        {{ partial "components/banner" . }}
     </section>
-{{ end }}
+    <!-- </Name/Intro> -->
 
+    <!-- <Home/Listing> : The sections that lists all the blogs -->
+    <section class="section border-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 border-start border-end--sm border-bottom-sm px-5 space--sm d-flex align-items-center">
+                    <div>
+                        <h1 class="typo-lg mx-auto">Recent Things</h1>
+                        {{ range $.Site.Data.recent.home }}
+                            <div class="typo-xs text-muted"> # {{ . }}</div>
+                        {{ end }}
+                    </div>
+                </div>
+                <div class="col-md-8 p-0 border-start border-end">
 
-<!--This is some pretty bad logic to be honest -->
-{{ $tags := .Site.Taxonomies.tags }}
-{{ $range := (mul (div (len $tags) 6) 6)}}
+                    {{ range $paginator.Pages }} 
+                        <div class="space--sm px-5 border-bottom">
+                            <h3 class="typo-lg">
+                                <a class="text-dark" href="{{ .Permalink }}">{{ .Title }}</a>
+                            </h3>
+                            <div class="catalogue-line"></div>
 
-{{ if $range }}
-<section class="section border-bottom">
-    <div class="container">
-        <div class="row border-start border-end">
-                <div class="col-md-9 p-0 border-end">
+                            <p class="text-muted">
+                            <small>
+                                {{ if isset .Params "summary" }}
+                                    {{ .Params.Summary | markdownify }}
+                                {{ else }}
+                                    {{ .Summary | default .Description }}
+                                {{ end }}
+                            </small>
+                            </p>
+                        </div>
+                    {{ end }}
+
+                    {{ if $paginator.Pages }}
+                        {{ partial "components/paginator" $paginator }}
+                    {{ else }}
+                        <div class="h-100 px-5 space--sm d-flex align-items-center">
+                            <div class="typo mx-auto mb-0 text-muted text-center">Nothing here, currently there are no articles in the listing.</div>
+                        </div>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- </Home/Listing> -->
+
+    {{ $categories := .Site.Taxonomies.categories }}
+    {{ $range := (mul (div (len $categories) 2 ) 2)}}
+
+    {{ if $range }}
+    <section class="section border-bottom">
+        <div class="container">
+            <div class="row border-start border-end">
+                <div class="col-md-4 my-auto text-center">
+                    <h1 class="typo-md mb-0"># Popular Categories</h1>
+                </div>
+                <div class="col-md-8 p-0 border-start">
                     <div class="row p-0">
-                        {{range $name, $taxonomy := $tags }} 
+                        {{ range $name, $taxonomy := $categories }} 
                             {{ if $range }}
                                 {{ $cnt := .Count }}
-                                <div class="col-md-2 text-center py-3 {{ if gt $range 6 }} border-bottom {{ end }} {{ if (mod (add 5 $range) 6) }}border-end {{ end }}">
-                                    {{ with $.Site.GetPage (printf "/tags/%s" $name) }}
+                                <div class="col-md-6 text-center space {{ if gt $range 2 }} border-bottom {{ end }} {{ if (mod (add 1 $range) 2) }}border-end {{ end }}">
+                                    {{ with $.Site.GetPage (printf "/categories/%s" $name) }}
                                             <a href={{ .RelPermalink }} class="text-muted" title="All pages with tag {{$name}}">
-                                                <small>{{ $name }}</small>
+                                                <small>{{$name}}</small>
                                             </a>
                                             <!--<sup>{{$cnt}}</sup>-->
                                     {{end}}
@@ -137,21 +94,68 @@
                         {{end}}
                     </div>
                 </div>
-            <div class="col-md-3 my-auto text-center">
-                <h1 class="typo-md mb-0"># Tags</h1>
             </div>
         </div>
-    </div>
-</section>
-{{ end }}
+    </section>
+    {{ end }}
 
-<section class="section space--md border-bottom">
-    <div class="container">
-        <p class="typo mb-0 text-center">
-            Ask a question or just simply say hello at <a href="mailto:rec.manish.sahani@gmail.com">rec.manish.sahani@gmail.com</a>
-        </p>
-    </div>
-</section>
+    <!-- cta to explore -->
+    {{ partial "components/cta" (dict 
+            "Message"   "Explore" 
+            "Class"     (dict 
+                "Message"   "typo-lg"
+                "Section"   "border-bottom"
+            )
+        )
+    }}
+
+    {{ range (where .Site.Sections "Section" "in" $mainSections) }}
+        {{ partial "components/banner" (dict "Context" . "WithPermalink" "Explore") }}
+    {{ end }}
+
+
+    <!--This is some pretty bad logic to be honest -->
+    {{ $tags := .Site.Taxonomies.tags }}
+    {{ $range := (mul (div (len $tags) 6) 6)}}
+
+    {{ if $range }}
+    <section class="section border-bottom">
+        <div class="container">
+            <div class="row border-start border-end">
+                    <div class="col-md-9 p-0 border-end">
+                        <div class="row p-0">
+                            {{range $name, $taxonomy := $tags }} 
+                                {{ if $range }}
+                                    {{ $cnt := .Count }}
+                                    <div class="col-md-2 text-center py-3 {{ if gt $range 6 }} border-bottom {{ end }} {{ if (mod (add 5 $range) 6) }}border-end {{ end }}">
+                                        {{ with $.Site.GetPage (printf "/tags/%s" $name) }}
+                                                <a href={{ .RelPermalink }} class="text-muted" title="All pages with tag {{$name}}">
+                                                    <small>{{ $name }}</small>
+                                                </a>
+                                                <!--<sup>{{$cnt}}</sup>-->
+                                        {{end}}
+                                    </div>
+                                    {{ $range = (sub $range 1) }}
+                                {{ end }}
+                            {{end}}
+                        </div>
+                    </div>
+                <div class="col-md-3 my-auto text-center">
+                    <h1 class="typo-md mb-0"># Tags</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{ end }}
+
+    <!-- cta to explore -->
+    {{ partial "components/cta" (dict 
+            "Message"   `Ask a question or just simply say hello at <a href="mailto:rec.manish.sahani@gmail.com">rec.manish.sahani@gmail.com</a>` 
+            "Class"     (dict 
+                "Message"   "typo"
+            )
+        )
+    }}
 
 {{ end }}
 

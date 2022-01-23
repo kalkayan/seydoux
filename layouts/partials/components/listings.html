@@ -1,11 +1,18 @@
 <div class="p-0 col-md-{{ .Col }} border-end">
+    {{ if .Content }}
+        <div class="border-bottom space--sm px-5 mb-0">
+            <article class="content typo">
+                {{ .Content }}
+            </article>
+        </div>
+    {{ end }}
     {{ range $index, $element := .Iterator  }}
         {{ with $element }}
-        <div class="{{ if gt $index 0 }} border-top {{ end }} space--sm px-5">
+            <div class="{{ if gt $index 0 }} border-top {{ end }}  space--sm px-5">
                 <h3 class="{{ $.Class.Heading }}">
                     <a href="{{ .Permalink }}">{{ .Title }}</a>
                 </h3>
-                <p class="mb-0 text-muted"><small>{{ .Description }}</small></p>
+                <p class="mb-0 text-muted"><small>{{ .Description | default .Summary | markdownify }}</small></p>
             </div>
         {{ end }}
     {{ else }} 

@@ -1,10 +1,41 @@
 <div class="border-bottom">
     <div class="container">
         <div class="row border-start border-end justify-content-center">
-            <div class="col-md-10 space--lg px-5">
-                <h1 class="typo-xl mb-4">{{ .Title | default ""}}</h1>
-                <p class="mb-0 text-muted">{{ .Description | default "" }}</p>
-            </div>
+            {{ with $.Context }}
+                <div class="col-md-10 space--lg px-5">
+
+                    <!-- 
+                        Title - This is the big bold text or can be a banner image 
+                    -->
+                    {{ if .Params.banner }} 
+                        {{ with .Resources.GetMatch .Params.banner }}
+                            <img 
+                                class="w-100 mb-4" 
+                                src="data:{{ .MediaType }};base64,{{ .Content | base64Encode }}" 
+                            />
+                        {{ end }}
+                    {{ else }}
+                        <h1 class="typo-xl mb-4">{{ .Title | default ""}}</h1>
+                    {{ end }}
+
+                    <!-- 
+                        Subtitle - This is to give reader's some context about the page.
+                        Use page description if subtitle is not present.
+                     -->
+                    <p class="{{ if or $.WithPermalink $.WithAuthor }} mb-3 {{ else }} mb-0 {{ end }} 
+                              {{ if .Params.subtitle }} fs-5 fw-normal typo-poppins {{ else }} text-muted {{ end }}">
+                        {{ .Params.subtitle | default .Description | markdownify}}
+                    </p>
+
+                    <!--  -->
+                    {{ if $.WithPermalink }} 
+                        <a href="{{ .Permalink }}">{{ $.WithPermalink }}</a>
+                    {{ end }}
+                    {{ if $.WithAuthor }} 
+                        <small class="text-danger text-capitalize ">by {{ $.Context.Params.Author }}</small>
+                    {{ end }}
+                </div>
+            {{ end }}
         </div>
     </div>
 </div>

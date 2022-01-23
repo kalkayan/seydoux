@@ -1,34 +1,46 @@
 {{ define "main" }}
 
-<section class="section section-list">
-    <div class="border-bottom">
-        <div class="container">
-            <div class="row border-start text-muted border-end justify-content-center">
-                <div class="col-md-3 space--sm text-center px-5">
-                    <small><span>Number of Articles: {{ len .RegularPages }}</span></small>
-                </div>
-                <div class="col-md-9 border-start space--sm px-5">
-                    {{ partial "components/breadcrums" . }}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{ partial "components/banner" . }}
-
+    <!-- Content Variable -->
     {{$iterator :=  .Sections | default .RegularPages }}
-    
-    <div class="">
-        <div class="container">
-            <div class="row flex-row-reverse-sm border-start border-end">
-                {{ partial "components/listings" (dict "Iterator" $iterator "Col" 8 "Class" (dict "Heading" "typo-sm") )}}
-                <div class="col-md-4 space--sm px-5 d-flex align-items-center">
-                    <h3 class="typo-lg my-auto w-100 text-center"># Recent in {{ .Title }}</h3>
+
+
+    <!-- <List>-->
+    <section class="section section-list">
+
+        <!--  -->
+        <div class="border-bottom">
+            <div class="container">
+                <div class="row border-start text-muted border-end justify-content-center">
+                    <div class="col-md-3 space--sm text-center px-5">
+                        <small><span># Number of {{ .Section | humanize }}: {{ len $iterator }}</span></small>
+                    </div>
+                    <div class="col-md-9 border-start space--sm px-5">
+                        {{ partial "components/breadcrums" . }}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</section>
+        {{ partial "components/banner" (dict "Context" .) }}
+
+        <div class="">
+            <div class="container">
+                <div class="row flex-row-reverse-sm border-start border-end">
+                    
+                    {{ partial "components/listings" (dict 
+                            "Iterator" (.Paginate $iterator).Pages
+                            "Col" 8 
+                            "Class" (dict "Heading" "typo-sm") 
+                        )
+                    }}
+
+                    <div class="col-md-4 space--sm px-5 d-flex align-items-center">
+                        <h3 class="typo-lg my-auto w-100 text-center"># Recent in {{ .Title }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
 
 {{ end }}

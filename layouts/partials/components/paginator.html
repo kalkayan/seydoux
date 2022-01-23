@@ -1,0 +1,23 @@
+<div class="row m-0">
+    {{ if .HasPrev }}
+    <div class="col col-md-1 col-xs-1 col-sm-1 border-end p-2 text-center">
+        <a href="{{ .Prev.URL }}" class="text-muted">
+            «
+        </a>
+    </div>
+    {{ end }}
+    {{ range .Pagers }}
+    <div class="col col-md-1 col-xs-1 col-sm-1 border-end p-2 text-center">
+        <a href="{{ .URL }}" class="text-muted">
+            {{ .PageNumber }}
+        </a>
+    </div>
+    {{ end }}
+    {{ if .HasNext }}
+    <div class="col col-md-1 col-sm-1 col-sm-1 border-end-md p-2 text-center">
+        <a href="{{ .Next.URL }}" class="text-muted">
+            »
+        </a>
+    </div>
+    {{ end }}
+</div>
