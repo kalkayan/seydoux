@@ -27,13 +27,16 @@
                         {{ .Params.subtitle | default .Description | markdownify}}
                     </p>
 
-                    <!--  -->
+                    <!-- Add a link below the content -->
                     {{ if $.WithPermalink }} 
                         <a href="{{ .Permalink }}">{{ $.WithPermalink }}</a>
                     {{ end }}
+
+					<!--Render Information about the author-->
                     {{ if $.WithAuthor }} 
                         <small class="text-danger text-capitalize ">by {{ $.Context.Params.Author }}</small>
                     {{ end }}
+
                 </div>
             {{ end }}
         </div>

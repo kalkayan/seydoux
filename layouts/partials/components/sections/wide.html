@@ -1,0 +1,26 @@
+<!--
+	TODO: To refactor the logic for this so it doesn't fail if the struct 
+	doesn't have any field
+-->
+<section class="section home space--lg border-bottom shadow-sm">
+	<div class="container">
+		{{ with $.Context }}
+
+			<!--
+				Banner is given higher priority then the title, if the site has
+				a banner then load the banner.
+			-->
+			{{ if .Banner }}
+				<img src="{{ .Banner }}" alt="" srcset="">
+			{{ else }}
+				<h1 class="typo-xl">{{ .Title | default ""}}</h1>
+			{{ end }}
+
+			<!-- 
+				Subtitle - This is to give reader's some context about the page.
+			 -->
+			<p>{{ .Subtitle | markdownify }}</p>
+
+		{{ end }}
+	</div>
+</section>

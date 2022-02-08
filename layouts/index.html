@@ -1,24 +1,33 @@
 {{ define "main" }}
 
     <!-- Defaults -->
-    {{ $defaultSubTitle := printf "%s should really add a subtitle here. Like all other things this is also a WIP block of this site :| ~ Sincerely the site." $.Site.Author.name }}
     {{ $defaultSections := slice "posts" "series" }}
 
     <!-- Hugo Variables -->
-    {{ $title           := $.Site.Params.title          | default "Seydoux" }}
-    {{ $subtitle        := $.Site.Params.subtitle       | default $defaultSubTitle }}
     {{ $mainSections    := .Site.Params.mainSections    | default $defaultSections }}
     {{ $paginator       := .Paginate (first 15 (where .Site.RegularPages "Section" "in" $mainSections)).Reverse }}
 
 
-    <!-- <Home/Intro> : The section that introduces the website to people -->
-    <section class="section home space--lg border-bottom shadow-sm">
-        <div class="container">
-            <h1 class="typo-xl">{{ $title }}</h1>
-            <p>{{ $subtitle }}</p>
-        </div>
-    </section>
-    <!-- </Name/Intro> -->
+	<!-- Site Announcement: The sections that shows an CTA for announcement. -->
+    {{ partial "components/cta" (dict 
+            "Message"   $.Site.Params.announcement
+            "Class"     (dict 
+				"Section"	"border-bottom"
+				"Content"	"space"
+                "Message"   "typo typo-gradient"
+            )
+        )
+    }}
+	<!-- Site Announcement -->
+
+
+    <!-- Site Intro : The section that introduces the website to people -->
+	{{ partial "components/sections/wide"  (dict
+			"Context"	$.Site.Params.Props	
+		) 
+	}}
+    <!-- Site Intro -->
+
 
     <!-- <Home/Listing> : The sections that lists all the blogs -->
     <section class="section border-bottom">
@@ -28,7 +37,7 @@
                     <div>
                         <h1 class="typo-lg mx-auto">Recent Things</h1>
                         {{ range $.Site.Data.recent.home }}
-                            <div class="typo-xs text-muted"> # {{ . }}</div>
+						<div class="typo-xs text-muted mb-2"> ○ {{ . | markdownify }}</div>
                         {{ end }}
                     </div>
                 </div>
@@ -72,8 +81,8 @@
 
     {{ $categories := .Site.Taxonomies.categories }}
     {{ $range := (sub (add (len $categories) 4) (mod (len $categories) 4) )}}
-
-    {{ if $range }}
+	
+    {{ if gt $range 0 }}
     <section class="section border-bottom">
         <div class="container">
             <div class="row border-start border-end">
@@ -145,7 +154,7 @@
                         </div>
                     </div>
                 <div class="col-md-3 my-auto text-center">
-                    <h1 class="typo-md mb-0"># Tags</h1>
+                    <h1 class="typo-md mb-0 typo-gradient"># Tags</h1>
                 </div>
             </div>
         </div>

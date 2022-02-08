@@ -1,4 +1,4 @@
-<div class="p-0 col-md-{{ .Col }} border-end">
+<div class="p-0 col-md-{{ .Col }} {{ $.Class.Section }} border-end">
     {{ if .Content }}
         <div class="border-bottom space--sm px-5 mb-0">
             <article class="content typo-sm typo-poppins">
@@ -12,7 +12,7 @@
                 <h3 class="{{ $.Class.Heading }}">
                     <a href="{{ .Permalink }}">{{ .Title | markdownify }}</a>
                 </h3>
-                <p class="mb-1 typo-poppins typo-sm "><small>{{ .Description | default .Summary | markdownify }}</small></p>
+                <p class="mb-1 typo-poppins typo-sm"><small>{{ .Description | default .Summary | markdownify }}</small></p>
 
 				<p class="typo-xs">
 					{{ .ReadingTime }} minute{{ if (ne .ReadingTime 1) }}s{{ end }}
@@ -25,5 +25,12 @@
                 <h3 class="{{ .Class.Placeholder | default "typo-md"}} w-100 text-center" > {{ .Placeholder }}</h3>
             </div>
             {{ end }}
+    {{ end }}
+    {{ if .Footer }}
+        <div class="border-top space--sm px-5 mb-0">
+            <article class="content typo-sm typo-poppins">
+                {{ .Footer }}
+            </article>
+        </div>
     {{ end }}
 </div>

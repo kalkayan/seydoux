@@ -8,16 +8,23 @@
             <div class="row flex-row-reverse-sm border-start border-end">
                 <!-- Listing for related pages -->
                 {{ partial "components/listings" (dict 
-                        "Iterator"      (.Pages) 
+                        "Iterator"      (.Pages).Reverse
                         "Col"           8 
                         "Content"       .Content
+						"Footer"		$.Params.footer
                         "Placeholder"   "There is nothing yet in this series"
                         "Class"         (dict "Heading" "typo-md") 
                     ) 
                 }}
                 <div class="col-md-4 space--sm pt-5 px-5">
-                    <h3 class="typo-md w-100"># About this series</h3>
-                    <p class="typo text-muted text-justify">{{ .Params.about | default .Description | markdownify }}</p>
+                    <h3 class="typo-md"># About this series</h3>
+                    <div class="typo d-block text-muted text-justify mb-4">
+						{{ .Params.about | default .Description | markdownify }}
+					</div>
+					<h4 class="typo-xs mb-4 text-muted">○○○</h4>
+					{{ range index $.Site.Data.recent.series .Title }}
+						<div class="typo-xs text-muted mb-2"> ○ {{ . | markdownify }}</div>
+					{{ end }}
                 </div>
             </div>
         </div>

@@ -1,3 +1,6 @@
+$gray-400: #ced4da !default;
+$border-color: $gray-400 !default;
+
 @import "../../node_modules/bootstrap/scss/bootstrap";
 @import 'base/base';
 @import 'components/components';

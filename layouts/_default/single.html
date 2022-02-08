@@ -150,7 +150,7 @@
                                 {{ with $element }}
                                 <div class="col d-flex align-items-center {{ if gt $index 0 }} border-start {{ end }} space--sm px-5">
                                     <h3 class="typo-sm my-auto text-muted">
-                                        <a href="{{ .Permalink }}" class="text-muted">{{ .Title }}</a>
+                                        <a href="{{ .Permalink }}" class="text-muted">{{ .Title | markdownify }}</a>
                                     </h3>
                                     <!--<p class="mb-0 text-muted"><small>{{ .Description }}</small></p>-->
                                 </div>
