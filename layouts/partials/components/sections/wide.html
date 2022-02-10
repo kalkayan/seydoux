@@ -11,6 +11,7 @@
 				a banner then load the banner.
 			-->
 			{{ if .Banner }}
+				<h1 class="typo-xl d-none">{{ .Title | default ""}}</h1>
 				<img src="{{ .Banner }}" alt="" srcset="">
 			{{ else }}
 				<h1 class="typo-xl">{{ .Title | default ""}}</h1>
