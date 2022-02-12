@@ -11,7 +11,7 @@
       <ul class="navbar-nav ms-md-4 me-auto">
         {{ range $index, $section := .Site.Sections }}
             {{ if and (gt (len .Sections) 1) (ne $section.Section "posts") }}
-                <li class="nav-item dropdown border-start space px-4">
+                <li class="nav-item dropdown border-start space px-4 {{ if eq $index (sub (len .Site.Sections) 1) }} border-end {{ end }}">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {{ .Title }}
                     </a>

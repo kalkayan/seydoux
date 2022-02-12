@@ -8,6 +8,18 @@
         <!--Navigation related items that appears of every page go here-->
         {{- partial "header.html" . -}}
 
+        <!-- Site Announcement: The sections that shows an CTA for announcement. -->
+        {{ partial "components/cta" (dict 
+                "Message"   $.Site.Params.announcement
+                "Class"     (dict 
+                    "Section"	"border-bottom"
+                    "Content"	"space--sm"
+                    "Message"   "typo typo-gradient"
+                )
+            )
+        }}
+        <!-- Site Announcement -->
+
         <div id="content">
             {{- block "main" . }}{{- end }}
         </div>

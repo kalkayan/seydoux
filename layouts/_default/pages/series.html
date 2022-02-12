@@ -1,6 +1,15 @@
 {{ define "main" }}
- 
-{{ partial "components/banner" (dict "Context" . "WithAuthor" "True") }}
+
+
+<!-- Banner -->
+{{ partial "components/banner" (dict 
+		"Context"		. 
+		"WithAuthor"	"True"
+		"Class"			(dict "Heading" "typo-xxl typo-league")
+	) 
+}}
+<!-- End Banner -->
+
 
 <section class="section section-list">
     <div class="">
@@ -23,7 +32,12 @@
 					</div>
 					<h4 class="typo-xs mb-4 text-muted">○○○</h4>
 					{{ range index $.Site.Data.recent.series .Title }}
-						<div class="typo-xs text-muted mb-2"> ○ {{ . | markdownify }}</div>
+						{{ $it := split . "|" }}
+						<div class="typo-xs text-muted mb-3"> 
+							○ {{ index $it 0 | markdownify }}
+							<br class="mb-1">
+							<small class="fw-normal">{{ index $it 1 | markdownify }}</small>
+						</div>
 					{{ end }}
                 </div>
             </div>

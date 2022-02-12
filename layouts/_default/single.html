@@ -52,7 +52,11 @@
                 </div>
             </div>
         </div> -->
-        {{ partial "components/banner" (dict "Context" . ) }}
+
+        {{ partial "components/banner" (dict "Context" . 
+				"Class" (dict "Heading" "typo-league typo-xxl")
+			) 
+		}}
 
         <div class="border-bottom">
             <div class="container">
@@ -93,7 +97,7 @@
         </div>
         {{ end }}
 
-        {{ $nextPage := (.GetPage ($.Params.next | default "nf")) | default $.Prev }}
+        {{ $nextPage := (.GetPage ($.Params.next | default "nf")) | default $.Next }}
 
         {{ if and ($nextPage) (eq $nextPage.Section .Section) }}
             <div class="border-bottom">

@@ -5,20 +5,7 @@
 
     <!-- Hugo Variables -->
     {{ $mainSections    := .Site.Params.mainSections    | default $defaultSections }}
-    {{ $paginator       := .Paginate (first 15 (where .Site.RegularPages "Section" "in" $mainSections)).Reverse }}
-
-
-	<!-- Site Announcement: The sections that shows an CTA for announcement. -->
-    {{ partial "components/cta" (dict 
-            "Message"   $.Site.Params.announcement
-            "Class"     (dict 
-				"Section"	"border-bottom"
-				"Content"	"space"
-                "Message"   "typo typo-gradient"
-            )
-        )
-    }}
-	<!-- Site Announcement -->
+    {{ $paginator       := .Paginate (first 15 (where (where .Site.RegularPages "Section" "in" $mainSections) "Draft" (and .Site.BuildDrafts true))).Reverse }}
 
 
     <!-- Site Intro : The section that introduces the website to people -->
@@ -33,9 +20,9 @@
     <section class="section border-bottom">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 border-start border-end--sm border-bottom-sm px-5 space--sm d-flex align-items-center">
-                    <div>
-                        <h1 class="typo-lg mx-auto">Recent Things</h1>
+                <div class="col-md-4 border-start border-end--sm border-bottom-sm px-5 space--lg d-flex align-items-center">
+                    <div class="mx-auto">
+                        <h1 class="typo-lg ">Recent Things</h1>
                         {{ range $.Site.Data.recent.home }}
 						<div class="typo-xs text-muted mb-2"> ○ {{ . | markdownify }}</div>
                         {{ end }}
@@ -80,8 +67,8 @@
     <!-- </Home/Listing> -->
 
     {{ $categories := .Site.Taxonomies.categories }}
-    {{ $range := (sub (add (len $categories) 4) (mod (len $categories) 4) )}}
-	
+	{{ $range := len $categories }}
+
     {{ if gt $range 0 }}
     <section class="section border-bottom">
         <div class="container">
@@ -89,12 +76,12 @@
                 <div class="col-md-4 my-auto text-center">
                     <h1 class="typo-md mb-0"># Popular Categories</h1>
                 </div>
-                <div class="col-md-8 p-0 border-start">
+                <div class="col-md-8 px-0 border-start">
                     <div class="row p-0">
                         {{ range $name, $taxonomy := $categories }} 
                             {{ if $range }}
                                 {{ $cnt := .Count }}
-                                <div class="col-md-6 text-center space border-bottom-sm {{ if (mod (add 1 $range) 2) }}border-end {{ end }}">
+                                <div class="col-md-6 text-center space--sm border-bottom-sm {{ if (mod (add 1 $range) 2) }}border-end {{ end }}">
                                     {{ with $.Site.GetPage (printf "/categories/%s" $name) }}
                                             <a href={{ .RelPermalink }} class="text-muted" title="All pages with tag {{$name}}">
                                                 <small>{{$name}}</small>
@@ -129,7 +116,7 @@
 
     <!--This is some pretty bad logic to be honest -->
     {{ $tags := .Site.Taxonomies.tags }}
-    {{ $range := (sub (add (len $tags) 6) (mod (len $tags) 6) )}}
+    {{ $range := len $tags }}
 
     {{ if $range }}
     <section class="section border-bottom">

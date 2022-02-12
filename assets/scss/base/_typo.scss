@@ -1,7 +1,8 @@
 .typo {
     &-xxl {
-        font-size: 6rem;
-        font-weight: 600;
+        font-size: 5rem;
+        font-weight: 500;
+		margin-top: 1.5rem;
         margin-bottom: 1.2rem;
         margin-left: -5px;
         font-family: 'Josefin Sans', sans-serif;
@@ -65,4 +66,10 @@
     &-poppins {
         font-family: 'Poppins', sans-serif !important;
     }
+
+	&-league {
+		font-family: LeagueSpartan, sans-serif;
+		line-height: 100%;
+		word-spacing: 4px;
+	}
 }
