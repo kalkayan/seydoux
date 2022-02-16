@@ -4,7 +4,7 @@
 <!-- Banner -->
 {{ partial "components/banner" (dict 
 		"Context"		. 
-		"WithAuthor"	"True"
+		"WithAuthor"	true
 		"Class"			(dict "Heading" "typo-xxl typo-league")
 	) 
 }}
@@ -17,12 +17,13 @@
             <div class="row flex-row-reverse-sm border-start border-end">
                 <!-- Listing for related pages -->
                 {{ partial "components/listings" (dict 
-                        "Iterator"      (.Pages).Reverse
-                        "Col"           8 
-                        "Content"       .Content
-						"Footer"		$.Params.footer
-                        "Placeholder"   "There is nothing yet in this series"
-                        "Class"         (dict "Heading" "typo-md") 
+                        "Iterator"          (.Pages).Reverse
+                        "Col"               8 
+                        "Content"           .Content
+						"Footer"		    $.Params.footer
+                        "withReadingTime"   true
+                        "Placeholder"       "There is nothing yet in this series"
+                        "Class"             (dict "Heading" "typo-md") 
                     ) 
                 }}
                 <div class="col-md-4 space--sm pt-5 px-5">

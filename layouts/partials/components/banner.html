@@ -15,14 +15,14 @@
                             />
                         {{ end }}
                     {{ else }}
-						<h1 class="{{ $.Class.Heading | default "typo-xl" }} mb-4">{{ .Title | default "" | markdownify }}</h1>
+						<h1 class="{{ $.Class.Heading | default "typo-xl" }} mb-5">{{ .Title | default "" | markdownify }}</h1>
                     {{ end }}
 
                     <!-- 
                         Subtitle - This is to give reader's some context about the page.
                         Use page description if subtitle is not present.
                      -->
-                    <p class="{{ if or $.WithPermalink $.WithAuthor }} mb-3 {{ else }} mb-0 {{ end }} 
+                    <p class="{{ if or $.WithPermalink $.WithAuthor }} mb-4 {{ else }} mb-0 {{ end }} 
                               {{ if .Params.subtitle }} fs-5 fw-normal typo-poppins {{ else }} text-muted {{ end }}">
                         {{ .Params.subtitle | default .Description | markdownify}}
                     </p>
@@ -33,9 +33,11 @@
                     {{ end }}
 
 					<!--Render Information about the author-->
-                    {{ if $.WithAuthor }} 
-                        <small class="text-danger text-capitalize ">by {{ $.Context.Params.Author }}</small>
-                    {{ end }}
+                    <div>
+                        {{ if isset $ "WithAuthor" }} 
+                            <small class="text-muted">Published on {{ .Date.Format "January 2, 2006" }} by {{ $.Context.Params.Author }}</small> 
+                        {{ end }}
+                    </div>
 
                 </div>
             {{ end }}

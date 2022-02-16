@@ -36,7 +36,7 @@
         </li>
         <li class="nav-item my-auto">
             {{range $.Site.Params.social}}
-            <a href="align-middle">
+            <a class="align-middle" href="{{ .url }}" target="__blank">
                 {{ partial (printf "svg/%s.svg" .name) }}
             </a>
             {{end}}

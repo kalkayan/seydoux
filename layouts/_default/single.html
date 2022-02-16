@@ -22,8 +22,14 @@
                         </span>
 
                     </div>
-                    <div class="col-md-3 space--sm text-center border-start border-end px-5">
-                        <small><span>Writted by {{ $.Params.Author }}</span></small>
+                    <div class="col-md-3 space--sm text-center border-start border-end px-2">
+                        <small>
+                            <span>
+                                Last updated ~ <time datetime="{{ .Page.Lastmod.Format "Mon Jan 10 17:13:38 2020 -0700" }}" class="text-muted">
+                                    {{ $.Page.Lastmod.Format "January 02, 2006" }}
+                                </time>
+                            </span>
+                        </small>
                     </div>
                     <div class="col-md-3 space--sm text-center">
                         {{ with $.Site.GetPage (printf "/categories/%s" $category) }}
@@ -53,8 +59,10 @@
             </div>
         </div> -->
 
-        {{ partial "components/banner" (dict "Context" . 
-				"Class" (dict "Heading" "typo-league typo-xxl")
+        {{ partial "components/banner" (dict 
+                "Context"       . 
+                "WithAuthor"	true
+				"Class"         (dict "Heading" "typo-league typo-xxl")
 			) 
 		}}
 
