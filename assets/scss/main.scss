@@ -45,7 +45,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p {
-    letter-spacing: 1px;
+    //letter-spacing: 1px;
     font-size: 0.9rem;
     color: $gray-900;
 }
@@ -155,9 +155,9 @@ pre {
 
             p, li {
                 font-size: 1.05rem;
-                color: $gray-700;
-                letter-spacing: 1.2px;
-                line-height: 165%;
+                //color: $gray-700;
+                //letter-spacing: 1.2px;
+                line-height: 160%;
                 text-align: justify;
             }
 

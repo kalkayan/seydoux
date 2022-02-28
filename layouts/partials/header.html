@@ -1,38 +1,28 @@
+<!-- Page Variables -->
+{{ $navSections     := .Site.Params.navSections | default (slice "posts") }}
+{{ $sections        := where .Site.Sections "Section" "in" $navSections }}
+
 <nav class="navbar navbar-expand-lg navbar-light sticky-top  bg-white p-0 border-bottom">
   <div class="container">
     <!--<a class="navbar-brand typo-gradient" href="/">{{ $.Site.Title }}</a>-->
 	<a class="navbar-brand" href="/">
-		<img src="/banner.png" width="200" alt="" srcset="">
+		<img src="/logo.png" width="200" alt="" srcset="">
 	</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-md-4 me-auto">
-        {{ range $index, $section := .Site.Sections }}
-            {{ if and (gt (len .Sections) 1) (ne $section.Section "posts") }}
-                <li class="nav-item dropdown border-start space px-4 {{ if eq $index (sub (len .Site.Sections) 1) }} border-end {{ end }}">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ .Title }}
-                    </a>
-                    <ul class="dropdown-menu p-0 border" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item px-3 border-bottom nav-link" href="{{ .Permalink }}">All {{ .Title }}</a></li>
-                        {{ range .Sections }}
-                        <li><a class="dropdown-item px-3 border-bottom nav-link" href="{{ .Permalink }}">{{ .Title }}</a></li>
-                        {{ end }}
-                    </ul>
-                </li>
-            {{ else }}
-                <li class="nav-item border-start {{ if eq $index (sub (len .Site.Sections) 1) }} border-end {{ end }} space px-4 text-center">
-                    <a class="nav-link" href="{{ .Permalink }}">{{ humanize .Title }}</a>
-                </li>
-            {{ end  }}
+        {{ range $index, $section := $sections }}
+            <li class="nav-item border-start {{ if eq $index (sub (len $sections) 1) }} border-end {{ end }} space px-4 text-center">
+                <a class="nav-link" href="{{ .Permalink }}">{{ humanize .Title }}</a>
+            </li>
         {{ end }}
       </ul>
 
       <ul class="navbar-nav ms-auto">
         <li class="nav-item me-4 space px-3 border-start border-end">
-          <a class="nav-link" href="/about">About Me</a>
+          <a class="nav-link" href="/about/me">About Me</a>
         </li>
         <li class="nav-item my-auto">
             {{range $.Site.Params.social}}
