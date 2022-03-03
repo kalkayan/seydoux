@@ -157,10 +157,10 @@
                             <h3 class="typo-sm my-auto w-100 text-center">#More in {{$category}}</h3>
                         </div>
                         <div class="p-0 col-md-9 border-start">
-                            <div class="row">
+                            <div class="row h-100">
                             {{ range $index, $element := $moreInCategory }}
                                 {{ with $element }}
-                                <div class="col d-flex align-items-center {{ if gt $index 0 }} border-start {{ end }} space--sm px-5">
+                                <div class="col h-100 d-flex align-items-center {{ if gt $index 0 }} border-start {{ end }} space--sm px-5">
                                     <h3 class="typo-sm my-auto text-muted">
                                         <a href="{{ .Permalink }}" class="text-muted">{{ .Title | markdownify }}</a>
                                     </h3>

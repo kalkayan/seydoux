@@ -15,7 +15,7 @@
                     {{range $index, $element := $.Site.Params.social}}
                     <div class="col space {{ if gt (len $.Site.Params.social) (add $index 1)}}border-end {{ end }}">
                             <a class="text-muted" href="{{ $element.url }}" target="__blank">
-                                <span class="">{{ $element.name  }}</span> 
+                                <span class="">{{ $element.name | humanize }}</span> 
                             </a>
                         </div>
                     {{end}}
@@ -26,7 +26,11 @@
                     <tbody>
                         <tr>
                             <td class="text-muted align-middle">
-                                <small>Created & Designed Manish Sahani and build using @hugo.</small>
+                                <small>
+                                    Created & Designed by 
+                                    <a href="https://github.com/kalkayan/"> @Manish Sahani </a>
+                                    and build using <a href="https://gohugo.io/">@hugo.</a>
+                                </small>
                             </td>
                         </tr>
                     </tbody>
@@ -41,8 +45,7 @@
         <div class="row border-end border-start"> 
             <div class="col px-5 space text-muted text-center">
                 <small class="typo-xxs">
-                    This site ({{ $.Site.Title }}) is maintained by {{ $.Site.Author.name }} and was created with the following rules. First, being never to monitize the site's content 
-                    and with paid promotion/ads. Second, to not collect data of any kind what so ever. 
+                    This site ({{ $.Site.Title }}) is maintained by <a href="{{ $.Site.Author.github }}">{{ $.Site.Author.name }}. </a>. 
                 </small>
             </div>
         </div>

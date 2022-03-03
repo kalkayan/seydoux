@@ -15,7 +15,9 @@
                             />
                         {{ end }}
                     {{ else }}
-						<h1 class="{{ $.Class.Heading | default "typo-xl" }} mb-5">{{ .Title | default "" | markdownify }}</h1>
+                        <h1 id={{ .Title }} class="{{ $.Class.Heading | default "typo-xl" }} mb-5" >
+                            {{ .Title | default "" | markdownify }}
+                        </h1>
                     {{ end }}
 
                     <!-- 

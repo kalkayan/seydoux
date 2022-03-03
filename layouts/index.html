@@ -20,46 +20,64 @@
     <section class="section border-bottom">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 border-start border-end--sm border-bottom-sm px-5 space--lg d-flex align-items-center">
+                <div class="col-md-4 border-start border-end--sm border-bottom-sm px-5 space--md d-flex align-items-center">
                     <div class="mx-auto">
                         <h1 class="typo-lg ">Recent Things</h1>
                         {{ range $.Site.Data.recent.home }}
-						<div class="typo-xs text-muted mb-2"> ○ {{ . | markdownify }}</div>
+                            <div class="text-muted mb-3 typo-xs"> 
+                                ○ {{ . | markdownify }}
+                            </div>
                         {{ end }}
                     </div>
                 </div>
-                <div class="col-md-8 p-0 border-start border-end">
+                <div class="col-md-8 p-0 border-start border-end d-flex flex-column">
 
-                    {{ range $paginator.Pages }} 
-                        <div class="space--sm px-5 border-bottom">
-                            <h3 class="typo-lg">
-                                <a class="text-dark" href="{{ .Permalink }}">{{ .Title }}</a>
-                            </h3>
-                            <div class="catalogue-line"></div>
+                    <div class="mb-auto">
+                        {{ range $index, $it := $paginator.Pages }} 
+                            {{ with $it }}
+                            <div class="space--sm px-5 {{ if lt (add 1 $index) (len $paginator.Pages) }}  border-bottom {{ end }}">
+                                    <h3 class="typo-lg">
+                                        <a class="text-dark" href="{{ .Permalink }}">{{ .Title }}</a>
+                                    </h3>
 
-                            <p class="text-muted">
-                            <small>
-                                {{ if isset .Params "summary" }}
-                                    {{ .Params.Summary | markdownify }}
-                                {{ else }}
-                                    {{ .Summary | default .Description }}
-                                {{ end }}
-                            </small>
-                            </p>
+                                    <p class="text-muted">
+                                        {{ if isset .Params "summary" }}
+                                            {{ .Params.Summary | markdownify }}
+                                        {{ else }}
+                                            {{ .Summary | default .Description }}
+                                        {{ end }}
+                                    </p>
+                                    <div class="typo-xs mb-3 d-flex justify-content-between">
+                                        <div>
+                                            {{ .ReadingTime }} minute{{ if (ne .ReadingTime 1) }}s{{ end }} Read,  
+                                            Published on {{ .Date.Format "January 2, 2006" }}
+                                        </div>
+                                        <div>
+                                            {{ range $tag := .Params.tags }}
+                                                <a class="me-1" href={{ (printf "/tags/%s" $tag) }}>
+                                                    #{{ $tag}}
+                                                </a>
+                                            {{ end }}
+                                        </div>
+                                    </div>
+                                    <p class="mb-0"> 
+                                        <a href="{{ .Permalink }}">Read More</a>		
+                                    </p>
+                                </div>
+                            {{ end }}
+                        {{ else }}
+                            <div class="h-100 px-5 space--sm d-flex align-items-center">
+                                <div class="typo mx-auto mb-0 text-muted text-center">Nothing here, currently there are no articles in the listing.</div>
+                            </div>
+                        {{ end }}
+                    </div>
+                    
+                    <div>
+                        {{ if $paginator.Pages }}
+                            {{ partial "components/paginator" $paginator }}
+                        {{ end }}
+                    </div>
 
-							<p> 
-								<a href="{{ .Permalink }}">Read More</a>		
-							</p>
-                        </div>
-                    {{ end }}
-
-                    {{ if $paginator.Pages }}
-                        {{ partial "components/paginator" $paginator }}
-                    {{ else }}
-                        <div class="h-100 px-5 space--sm d-flex align-items-center">
-                            <div class="typo mx-auto mb-0 text-muted text-center">Nothing here, currently there are no articles in the listing.</div>
-                        </div>
-                    {{ end }}
                 </div>
             </div>
         </div>
@@ -83,10 +101,11 @@
                                 {{ $cnt := .Count }}
                                 <div class="col-md-6 text-center space--sm border-bottom-sm {{ if (mod (add 1 $range) 2) }}border-end {{ end }}">
                                     {{ with $.Site.GetPage (printf "/categories/%s" $name) }}
-                                            <a href={{ .RelPermalink }} class="text-muted" title="All pages with tag {{$name}}">
-                                                <small>{{$name}}</small>
+                                            <a href={{ .RelPermalink }} class="typo-gradient" title="All pages with tag {{$name}}">
+                                                <small>
+                                                    {{ $name | humanize }}
+                                                </small>
                                             </a>
-                                            <!--<sup>{{$cnt}}</sup>-->
                                     {{end}}
                                 </div>
                                 {{ $range = (sub $range 1) }}
@@ -110,7 +129,7 @@
     }}
 
     {{ range (where .Site.Sections "Section" "in" $mainSections) }}
-        {{ partial "components/banner" (dict "Context" . "WithPermalink" "Explore") }}
+    {{ partial "components/banner" (dict "Context" . "WithPermalink" "Explore") }}
     {{ end }}
 
 
@@ -127,12 +146,11 @@
                             {{range $name, $taxonomy := $tags }} 
                                 {{ if $range }}
                                     {{ $cnt := .Count }}
-                                    <div class="col-md-2 text-center py-3 {{ if gt $range 6 }} border-bottom {{ end }} {{ if (mod (add 5 $range) 6) }}border-end {{ end }}">
+                                    <div class="col-md-2 text-center py-3 {{ if gt $range 6 }} border-bottom {{ end }} border-end">
                                         {{ with $.Site.GetPage (printf "/tags/%s" $name) }}
-                                                <a href={{ .RelPermalink }} class="text-muted" title="All pages with tag {{$name}}">
+                                                <a href={{ .RelPermalink }} class="typo-gradient" title="All pages with tag {{$name}}">
                                                     <small>{{ $name }}</small>
                                                 </a>
-                                                <!--<sup>{{$cnt}}</sup>-->
                                         {{end}}
                                     </div>
                                     {{ $range = (sub $range 1) }}
@@ -141,7 +159,7 @@
                         </div>
                     </div>
                 <div class="col-md-3 my-auto text-center">
-                    <h1 class="typo-md mb-0 typo-gradient"># Tags</h1>
+                    <h1 class="typo-md mb-0 "># Tags</h1>
                 </div>
             </div>
         </div>
