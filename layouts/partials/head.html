@@ -2,31 +2,52 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <!--first the Site's title, and if there is a page title load that too-->
-    <title>
-        {{ block "title" . }}{{ with .Params.Title }}{{ . }} | {{ end }}{{ .Site.Title }}{{ end }}
-    </title>
-
-    <!--Static and Dynamic meta tags-->
-    <meta name="viewport" content="width=device-width,minimum-scale=1">
-    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}">
-
-    {{ hugo.Generator }}
-    <!--NOTE: For Production make sure you add `HUGO_ENV="production"` before your build command-->
-    {{ if eq (getenv "HUGO_ENV") "production" | or (eq .Site.Params.env "production")  }}
-      <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
-    {{ else }}
-      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    <!--Prefetch DNS-->
+    {{ if and (eq (getenv "HUGO_ENV") "production") (eq (getenv "HUGO_HEAD_PREFETCH") true) }}
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="dns-prefetch" href="//www.google-analytics.com">
     {{ end }}
 
-    <!--Style Section-->
+    <!--PRECONNECT-->
+    {{ if and (eq (getenv "HUGO_ENV") "production") (eq (getenv "HUGO_HEAD_PRECONNECT") true) }}
+        <link rel=preconnect href='https://fonts.gstatic.com' crossorigin>
+    {{ end }}
+
+    <!--PRELOAD-->
+    {{ if and (eq (getenv "HUGO_ENV") "production") (eq (getenv "HUGO_HEAD_PREFETCH") true) }}
+        <link rel=preload href={{ "fonts/LeagueSpartan.woff2" | absURL }} as=font type=font/woff2>
+        <link rel=preload href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" as=style crossorigin>
+        <link rel=preload href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;600;700&display=swap" as=style crossorigin>
+    {{ end }}
+
+    <!--
+        TITLE - If there is a page title load that first followed by the site title.
+    -->
+    <title>{{ block "title" . }}{{ with .Params.Title }}{{ . }} | {{ end }}{{ .Site.Title }}{{ end }}</title>
+
+    <!--
+        META - Static and Dynamic meta tags for Search engine optimizations
+    -->
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage }}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}">
+
+    <!--GENERATOR-->
+    {{ hugo.Generator }}
+
+    <!--NOTE: For Production make sure you add `HUGO_ENV="production"` before your build command-->
+    {{ if eq (getenv "HUGO_ENV") "production" | or (eq .Site.Params.env "production") }}
+        <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+    {{ else }}
+        <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    {{ end }}
+
+    <!--Fonts-->
+    <link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" crossorigin>
+    <link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;600;700&display=swap" crossorigin>
+
+    <!--Styles-->
     {{ $options := (dict "targetPath" "css/styles.css" "outputStyle" "compressed") }}
-    {{ $style := resources.Get "scss/main.scss" | toCSS  $options | minify }}
-    <link rel="stylesheet" href="{{ $style.RelPermalink }}" media="screen">
-
-    <!-- JavaScript and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
-    <!--Analytics Section-->
+    {{ $style := resources.Get "scss/main.scss" | toCSS  $options | minify | fingerprint}}
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">
 
 </head>
