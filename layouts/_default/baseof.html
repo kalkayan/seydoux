@@ -9,15 +9,17 @@
         {{- partial "header.html" . -}}
 
         <!-- Site Announcement: The sections that shows an CTA for announcement. -->
-        {{ partial "components/cta" (dict 
-                "Message"   $.Site.Params.announcement
-                "Class"     (dict 
-                    "Section"	"border-bottom"
-                    "Content"	"space--sm"
-                    "Message"   "typo typo-gradient"
+        {{ if .Site.Params.announcement }}
+            {{ partial "components/cta" (dict 
+                    "Message"   $.Site.Params.announcement
+                    "Class"     (dict 
+                        "Section"	"border-bottom"
+                        "Content"	"space--sm"
+                        "Message"   "typo typo-gradient"
+                    )
                 )
-            )
-        }}
+            }}
+        {{ end }}
         <!-- Site Announcement -->
 
         <div id="content">
