@@ -10,6 +10,13 @@ $section-size: ('sm': 2rem, 'md': 4rem, 'lg': 6rem, 'xl': 8rem);
 }
 
 .section {
+
+	@for $height from 10 through 100 {
+		&--height--#{$height} {
+			min-height: #{$height}vh;
+		}
+	}
+
     &.footer {
 
         .social {
